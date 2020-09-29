@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>R aplicado a la ECH</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="  Creative Commons Attribution 4.0 International License" />
+    <link href="index_files/font-awesome-5.3.1/css/fontawesome-all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# R aplicado a la ECH
+## Setiembre 2020 <br> Gabriela Mathieu
+### <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br /> <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>
+
+---
+
+
+
+
+
+
+
+
+# ¿Qué haremos hoy?
+
+- Repaso
+&lt;br&gt;&lt;br&gt;
+--
+
+- Pobreza e indigencia: cálculo de variables y estimación de indicadores
+&lt;br&gt;&lt;br&gt;
+--
+
+- NBI: cálculo de variables y estimación de indicadores
+&lt;br&gt;&lt;br&gt;
+--
+
+- Método integrado: cálculo de variables y estimación de indicadores
+&lt;br&gt;&lt;br&gt;
+--
+
+- Ejercicios
+
+
+
+---
+# Medición de la pobreza
+
+- El paquete ech proveé tres funciones para instrumentar la medición de la pobreza en personas y hogares: 
+&lt;br&gt;&lt;br&gt;
+--
+
+- &lt;span style=" font-weight: bold;    border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #b3e2cd !important;" &gt;poverty(): pobreza monetaria&lt;/span&gt;
+&lt;br&gt;&lt;br&gt;
+--
+
+- &lt;span style=" font-weight: bold;    border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #b3e2cd !important;" &gt;unsatisfied_basic_needs(): necesidades básicas insatisfechas&lt;/span&gt;
+&lt;br&gt;&lt;br&gt;
+--
+
+- &lt;span style=" font-weight: bold;    border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #b3e2cd !important;" &gt;integrated_poverty_measure(): método integrado&lt;/span&gt;
+
+---
+class: inverse, center, middle
+# ech::poverty()
+
+---
+# Incidencia de la pobreza
+
+- La función &lt;span style=" font-weight: bold;    border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #b3e2cd !important;" &gt;poverty()&lt;/span&gt; permite calcular la pobreza e indigencia a nivel de hogares y personas.
+&lt;br&gt;&lt;br&gt;
+--
+
+- El cálculo de la variable *poor* e *indigent* utiliza la Metodología 2006 que establece la medición de la pobreza por el método del ingreso usando la &lt;span style=" font-weight: bold;    border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #b3e2cd !important;" &gt;línea de pobreza 2006&lt;/span&gt;. 
+&lt;br&gt;&lt;br&gt;
+--
+
+- El Método del Ingreso, es el útilizado por el INE como &lt;span style=" font-weight: bold;    border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #b3e2cd !important;" &gt;medida oficial&lt;/span&gt;, define la pobreza a partir de los ingresos per cápita de los hogares. 
+&lt;br&gt;&lt;br&gt;
+--
+
+- De esta manera un hogar será considerado pobre &lt;span style=" font-weight: bold;    border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #b3e2cd !important;" &gt;si el ingreso per cápita no supera el valor de un umbral:&lt;/span&gt; la línea de pobreza (LP). A su vez, todas las personas de ese hogar, si el hogar es considerado pobre, son consideradas pobres.
+
+---
+# Cálculo de la Línea de Indigencia y la Línea de Pobreza 2006
+
+- La construcción de las líneas 2006 se basa en los &lt;span style=" font-weight: bold;    border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #b3e2cd !important;" &gt;hábitos de consumo de la población del estrato de referencia definido en la ENGIH 2005-2006&lt;/span&gt;, sin introducir componentes normativos.
+&lt;br&gt;&lt;br&gt;
+--
+
+- &lt;span style=" font-weight: bold;    border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #b3e2cd !important;" &gt;Los precios de la Canasta Básica Total (CBT) se actualizan según el IPC&lt;/span&gt; (los índices de precios tanto de bienes alimentarios como no alimentarios). 
+&lt;br&gt;&lt;br&gt;
+--
+
+- Para determinar la LP  se  introducen  &lt;span style=" font-weight: bold;    border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #b3e2cd !important;" &gt;economías  de  escala  en  los  gastos  no  alimentarios  para  los  estratos  de  referencia  según la región geográfica&lt;/span&gt;,  tomando  en  cuenta  el  tamaño  del  hogar.  
+
+Fuente: [Metodología 2006](http://www.ine.gub.uy/documents/10181/36026/Informe+Linea+de+Pobreza+2006+Final.pdf/a8ac8606-d2e1-4cfd-b038-26c46bfb9de8)
+
+&lt;!-- El coeficiente de Orshansky es el inverso del Coeficiente de Engel (proporción del gasto en alimentación sobre el gasto de consumo total) --&gt;
+
+&lt;!-- En  la  práctica  el  Coeficiente  de  Orshansky2  (CO)  varía  a  lo  largo  del  tiempo según la evolución de los precios relativos y el tamaño del hogar. --&gt;
+
+---
+# LI y LP
+
+- &lt;span style=" font-weight: bold;    border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #b3e2cd !important;" &gt;LI del hogar&lt;/span&gt;
+
+`\(CBA_{pc}*ht19\)`
+
+- &lt;span style=" font-weight: bold;    border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #b3e2cd !important;" &gt;LP del hogar&lt;/span&gt;
+
+`\(CBA_{pc}*ht19 + CBNA_{pc}*n^{0.8}\)`
+
+El exponente que  mide  las  economías  de  escala  en  el gasto  no  alimentario es 0,8.
+
+Veamos el código de la función poverty() y los objetos ech::cba_cbna_*
+
+---
+# Cálculamos las variables pobreza e indigencia
+
+- En la ECH ya vienen las variables *pobre06* e *indigente06*.
+
+- La función poverty() calcula las variables *poor* e *indigent*.
+
+
+```r
+# cargamos el paquete 
+library(ech); library(dplyr)
+
+# cargamos los datos
+load("data/ech19.RData")
+
+# calculamos las variables de pobreza monteria
+*ech19 &lt;- poverty(data = ech19)
+```
+
+---
+# Estimamos la incidencia de la pobreza e indigencia
+
+Estimamos la incidencia de la pobreza en hogares y en personas usando la función &lt;span style=" font-weight: bold;    border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #b3e2cd !important;" &gt;get_estimation_mean()&lt;/span&gt;
+
+
+```r
+# Hogares según situación de pobreza 
+*pobres_hogares &lt;- get_estimation_mean(ech19, variable = "poor", level = "h", ids = "upm", estrato = "estrato")
+
+# Personas según situación de pobreza 
+*pobres_personas &lt;- get_estimation_mean(ech19, variable = "poor", level = "i", ids = "upm", estrato = "estrato")
+
+# Hogares según situación de indigencia
+*pobres_hogares &lt;- get_estimation_mean(ech19, variable = "indigent", level = "h", ids = "upm", estrato = "estrato")
+
+# Personas según situación de indigencia
+*pobres_personas &lt;- get_estimation_mean(ech19, variable = "indigent", level = "i", ids = "upm", estrato = "estrato")
+```
+---
+# Ejercicio 
+
+- Estimar el total de personas y  hogares pobres.    
+
+- Estimar la incidencia de la pobreza en hogares por área geográfica 
+
+- Estimar la incidencia de la pobreza en personas por área geográfica 
+
+- Estimar la incidencia de la pobreza en hogares por departamento
+
+- Estimar la incidencia de la pobreza en personas por área geográfica, según grupos de edades: 0-5, 6-12, 13-17, 18-64 y 65+
+
+- Estimar la incidencia de la pobreza en personas por área geográfica, según ascendencia declarada de las personas (afro, blanca, otra)
+
+Comparar con las estimaciones del [INE](http://www.ine.gub.uy/documents/10181/364159/Estimaci%C3%B3n+de+la+pobreza+por+el+M%C3%A9todo+del+Ingreso+2017/f990baaf-1c32-44c5-beda-59a20dd8325c)
+
+---
+class: inverse, center, middle
+# ech::unsatisfied_basic_needs()
+
+---
+# Necesidades Básicas Insatisfechas
+
+- La función unsatisfied_basic_needs() permite calcular variables que identifica necesidades básicas insatisfechas (NBI) en ciertas dimensiones que el hogar debería satisfacer para &lt;span style=" font-weight: bold;    border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #b3e2cd !important;" &gt;lograr un mínimo de bienestar&lt;/span&gt; y luego agregarlas en un indicador. 
+&lt;br&gt;&lt;br&gt;
+--
+
+- Se usa una aproximación de la Metodología del Censo 2011. Las dimensiones consideradas son: &lt;span style=" font-weight: bold;    border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #b3e2cd !important;" &gt;hacinamiento, acceso a agua potable, acceso a energía eléctrica, materiales de la vivienda, evacuación del servicio sanitario y educación&lt;/span&gt;. 
+&lt;br&gt;&lt;br&gt;
+--
+
+- La dimensión de educación se evalua para las personas entre 4 a 17 años y si al menos una de estas personas tiene una carencia en educación se considera que todo el hogar tiene carencia en esta dimensión. 
+&lt;br&gt;&lt;br&gt;
+--
+
+- Se evalúa para cada una de estas dimensiones &lt;span style=" font-weight: bold;    border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #b3e2cd !important;" &gt;si hay o no carencia&lt;/span&gt;, luego se suman y se obtiene la variable *UBN_q* (toma valores entre 0 a 6) y *UBN* (“Sin NBI”, “Con 1 NBI”, “Con 2 NBI” y “Con 3 o más NBI”). Los resultados se calculan al nivel del hogar y se imputan a todas las personas del hogar.
+
+---
+# Cálculo y estimación de las NBI
+
+Para calcular las NBI previamente debemos calcular la asistencia escolar y los años de educación.
+
+
+```r
+# Calculamos las variables de NBI
+ech19 &lt;- enrolled_school(ech19)
+ech19 &lt;- years_of_schooling(ech19)
+*ech19 &lt;- unsatisfied_basic_needs(data = ech19)
+```
+
+Estimamos la variable cantidad de NBI 
+
+
+```r
+# Distribución de hogares según cantidad de NBI que presenta
+*nbi_hogares &lt;- get_estimation_mean(df, variable = "UBN", level = "h", ids = "upm", estrato = "estrato")
+
+# Distribución de personas según cantidad de NBI que presenta el hogar
+*nbi_personas &lt;- get_estimation_mean(df, variable = "UBN", level = "i", ids = "upm", estrato = "estrato")
+```
+
+---
+class: inverse, center, middle
+# ech::integrated_poverty_measure()
+
+---
+# Método integrado de medición de la pobreza
+
+- El método integrado &lt;span style=" font-weight: bold;    border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #b3e2cd !important;" &gt;combina el método del ingreso con el de NBI&lt;/span&gt;.
+&lt;br&gt;&lt;br&gt;
+--
+
+- La función integrated_poverty_measure() permite calcular un indicador que vincula los dos métodos anteriores, de ahí el nombre de método integrado. 
+&lt;br&gt;&lt;br&gt;
+--
+
+- Se calcula la variable *integrated_poverty_measure* que toma 4 valores: &lt;span style=" font-weight: bold;    border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #b3e2cd !important;" &gt;'No pobreza', 'Pobreza reciente', 'Pobreza inercial' y 'Pobreza crónica'&lt;/span&gt;.
+
+| NBI / Pobreza | Pobre | No pobre |
+|--------|---------|--------------|
+| Con al menos una carencia | Pobreza crónica | Pobreza inercial |  
+| Ausencia de carencia  | Pobreza reciente    |   No pobres |
+
+---
+# Método integrado
+
+Previamente debemos haber calculado las variables pobreza y NBI
+
+
+```r
+# calculamos la variable metodo integrado
+*ech19 &lt;- integrated_poverty_measure(data = ech19)
+```
+
+Estimamos la proporción de hogares según el método integrado
+
+
+```r
+# Hogares según situación de pobreza
+ipm_hogares &lt;- get_estimation_mean(ech19, variable = "integrated_poverty_measure", level = "h", ids = "upm", estrato = "estrato")
+```
+
+---
+# geouy &amp; ech
+
+- Generamos un mapa de coropletas con la estimación de la incidencia de la pobreza por departamento.
+
+- Primero estimamos pobreza en hogares por deparamento usando el paquete ech.
+
+
+```r
+pobre_x_dpto &lt;- get_estimation_mean(data = ech19, # Indico el data.frame
+                                    variable = "pobre06", # La variable a estimar
+                                    by.x = "nomdpto", # La variable de agrupación
+                                    level = "h", # Defino que lo haga a nivel de hogar
+                                    name = "Pobreza")  %&gt;%
+        filter(pobre06 == "Pobre")
+```
+
+---
+# Mapa de coropletas
+
+El uso de este paquete se potencia al usarlo en conjunto con [geouy](https://github.com/RichDeto/geouy) ya que permite acceder a diferentes capas geográficas de Uruguay y construir mapas temáticos. 
+
+Por ejemplo, a la estimación anterior de hogares pobres por departamento se le pueden agregar las geometrías de los polígonos de cada departamento para construir un mapa de coropletas.
+
+
+```r
+# Agrego geometrías
+pobre_x_dpto_geo &lt;- add_geom(data = pobre_x_dpto, # Los datos en una unidad geográfica de entre las opciones
+                             unit = "Departamentos", # Unidad de agregación de los datos
+                             variable = "nomdpto") # Variable correspondiente a los códigos a la unidad
+```
+
+```
+Reading layer `departamentos' from data source `https://mapas.mides.gub.uy/geoserver/IDE/ows?service=WFS&amp;version=1.0.0&amp;request=GetFeature&amp;typeName=IDE:departamentos' using driver `GML'
+Simple feature collection with 19 features and 9 fields
+geometry type:  MULTIPOLYGON
+dimension:      XY
+bbox:           xmin: 366582.2 ymin: 6127919 xmax: 858252.1 ymax: 6671738
+epsg (SRID):    32721
+proj4string:    +proj=utm +zone=21 +south +datum=WGS84 +units=m +no_defs
+```
+
+---
+# Mapa de coropletas
+
+.pull-left[
+
+```r
+# Hago un mapa
+plot_geouy(x = pobre_x_dpto_geo, 
+           col = "Pobreza",
+           l = "%")
+```
+]
+
+
+
+.pull-right[
+&lt;img src="index_files/figure-html/unnamed-chunk-13-1.png" width="432" /&gt;
+]
+
+---
+&lt;!-- # Resultados oficiales  --&gt;
+
+&lt;!-- Podemos comparar estos resultados que brinda el paquete ech, con el Boletín Técnico que publica el INE. --&gt;
+
+&lt;!-- Concretamente para comparar los resultados con el cuadro 20 y 21, primero calculamos la variable poor con la función poverty() y luego estimamos la proporción de hogares y personas pobres según región (consideramos la variable region_4). --&gt;
+
+&lt;!-- ```{r eval = FALSE} --&gt;
+&lt;!-- df &lt;- poverty(data = df) --&gt;
+
+&lt;!-- # Hogares según situación de pobreza  --&gt;
+&lt;!-- pobres_hogares_region &lt;- get_estimation_mean(df, variable = "poor", by.x = "region_3",level = "h", ids = "upm", estrato = "estrato") --&gt;
+&lt;!-- pobres_hogares_region %&gt;% filter(poor == "Pobre") --&gt;
+
+&lt;!-- # Personas según situación de pobreza  --&gt;
+&lt;!-- pobres_personas_region &lt;- get_estimation_mean(df, variable = "poor", by.x = "region_3", level = "i", ids = "upm", estrato = "estrato") --&gt;
+&lt;!-- pobres_personas_region %&gt;% filter(poor == "Pobre") --&gt;
+&lt;!-- ``` --&gt;
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"slideNumberFormat": "<div class=\"progress-bar-container\">   <div class=\"progress-bar\" style=\"width: calc(%current% / %total% * 100%);\">   </div> </div>"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
