@@ -151,7 +151,7 @@ $CBA_{pc}*ht19$
 
 - `r text_spec2("LP del hogar")`
 
-$CBA_{pc}*ht19 + CBNA_{pc}*n^{0.8}$
+$CBA_{pc}*ht19 + CBNA_{pc}*ht19^{0.8}$
 
 El exponente que  mide  las  economías  de  escala  en  el gasto  no  alimentario es 0,8.
 
@@ -188,10 +188,10 @@ pobres_hogares <- get_estimation_mean(ech19, variable = "poor", level = "h", ids
 pobres_personas <- get_estimation_mean(ech19, variable = "poor", level = "i", ids = "upm", estrato = "estrato") #<<
 
 # Hogares según situación de indigencia
-pobres_hogares <- get_estimation_mean(ech19, variable = "indigent", level = "h", ids = "upm", estrato = "estrato") #<<
+indigencia_hogares <- get_estimation_mean(ech19, variable = "indigent", level = "h", ids = "upm", estrato = "estrato") #<<
 
 # Personas según situación de indigencia
-pobres_personas <- get_estimation_mean(ech19, variable = "indigent", level = "i", ids = "upm", estrato = "estrato") #<<
+indigencia_personas <- get_estimation_mean(ech19, variable = "indigent", level = "i", ids = "upm", estrato = "estrato") #<<
 ```
 ---
 # Ejercicio 
@@ -247,10 +247,10 @@ Estimamos la variable cantidad de NBI
 
 ```{r eval = FALSE}
 # Distribución de hogares según cantidad de NBI que presenta
-nbi_hogares <- get_estimation_mean(df, variable = "UBN", level = "h", ids = "upm", estrato = "estrato") #<<
+nbi_hogares <- get_estimation_mean(ech19, variable = "UBN", level = "h", ids = "upm", estrato = "estrato") #<<
 
 # Distribución de personas según cantidad de NBI que presenta el hogar
-nbi_personas <- get_estimation_mean(df, variable = "UBN", level = "i", ids = "upm", estrato = "estrato") #<<
+nbi_personas <- get_estimation_mean(ech19, variable = "UBN", level = "i", ids = "upm", estrato = "estrato") #<<
 ```
 
 ---
